@@ -4,7 +4,7 @@ export function SearchForm() {
   return (
     <div className="searchForm">
       <form>
-        <input type="text" value="Terry" />
+        <input type="text" value="" />
       </form>
     </div>
   );
