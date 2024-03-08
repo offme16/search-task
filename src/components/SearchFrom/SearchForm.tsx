@@ -9,7 +9,6 @@ import { getSearchValue } from "../../store/selectors/getSearchValue";
 export function SearchForm() {
   const dispatch = useAppDispatch();
   const searchValue = useSelector(getSearchValue);
-  console.log(searchValue);
   
   const handleUsername = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(searchActions.setField(e.target.value));
@@ -32,6 +31,7 @@ export function SearchForm() {
       <form>
         <input
           type="text"
+          placeholder="Найти"
           onChange={(e) => handleUsername(e)}
           onKeyDown={handleKeyDown}
           />

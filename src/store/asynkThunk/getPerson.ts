@@ -7,7 +7,7 @@ export const getPerson = createAsyncThunk<DataItem[], string>(
         try {
             const response = await fetch(`https://dummyjson.com/users/search?q=${data}`);
             const json = await response.json();
-            return json;
+            return json.users;
         } catch (e) {
             throw new Error('Ошибка при получении данных');
         }
