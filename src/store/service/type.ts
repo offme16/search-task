@@ -1,4 +1,4 @@
-interface DataItem {
+export interface DataItem {
     id: number;
     firstName: string;
     lastName: string;
@@ -10,4 +10,5 @@ export interface searchSchema {
     result?: DataItem[];
     isLoading: boolean;
     error?: string;
+    searchInput?: string;
 }

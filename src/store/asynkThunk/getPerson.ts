@@ -1,24 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { DataItem } from '../service/type';
 
-import { AxiosError } from 'axios';
-import { $api } from 'shared/api/api';
-
-interface KnownError {
-    message: string;
-    description: string;
-}
-export const getCurrency = createAsyncThunk(
-    'get_currency',
-    async () => {
+export const getPerson = createAsyncThunk<DataItem[], string>(
+    'get_person',
+    async (data) => {
         try {
-            const response = await $api.get("");
-            if (!response.data) {
-                throw new Error();
-            }
-            return response.data;
+            const response = await fetch(`https://dummyjson.com/users/search?q=${data}`);
+            const json = await response.json();
+            return json;
         } catch (e) {
-            const error: AxiosError<KnownError> = e as any;
-            alert(error.message);
+            throw new Error('Ошибка при получении данных');
         }
     },
 );

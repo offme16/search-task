@@ -1,17 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getPerson } from '../asynkThunk/currencyAsyncThunk';
+import { createSlice } from '@reduxjs/toolkit';
+import { getPerson } from './asynkThunk/getPerson';
 import { searchSchema } from './service/type';
 
 const initialState: searchSchema = {
     result: undefined,
     error: undefined,
     isLoading: false,
+    searchInput: undefined,
 };
 
 export const searchSlice = createSlice({
     name: 'search',
     initialState,
-    reducers: {},
+    reducers: {
+        setField: (state, action) => {
+            state.searchInput = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getPerson.pending, (state) => {

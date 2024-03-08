@@ -1,16 +1,24 @@
-import { configureStore, ReducersMapObject } from '@reduxjs/toolkit';
-import { searchReducer } from '';
+import React from 'react';
+import { Provider } from 'react-redux';
 import { StateSchema } from './stateSchema';
+import { createRootStore } from '../store';
 
-export function createRootStore(initialState?: StateSchema) {
-    const rootReducer: ReducersMapObject<StateSchema> = {
-        searchResult: searchReducer,
-    };
-
-    return configureStore<StateSchema>({
-        reducer: rootReducer,
-        preloadedState: initialState,
-    });
+export interface StoreProviderProps {
+    children?: React.ReactNode;
+    initialState?: StateSchema;
 }
+const StoreProvider = (props: StoreProviderProps) => {
+    const {
+        children,
+        initialState,
+    } = props;
+    const store = createRootStore(initialState);
 
-export type AppDispatch = ReturnType<typeof createRootStore>['dispatch']
+    return (
+        <Provider store={store}>
+            {children}
+        </Provider>
+    );
+};
+
+export default StoreProvider;
