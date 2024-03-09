@@ -1,9 +1,13 @@
+interface Address {
+    city: string;
+}
+
 export interface DataItem {
     id: number;
     firstName: string;
     lastName: string;
     image: string;
-    city: string;
+    address?: Address[];
 }
 
 export interface searchSchema {

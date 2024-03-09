@@ -1,15 +1,22 @@
 import "./style.css";
+import { DataItem } from "../../store/service/type";
 
-export function UserCard(props) {
-  console.log(props);
-  
+interface UserCardProps {
+  user: DataItem;
+}
+
+export const UserCard: React.FC<UserCardProps> = ({ user }) => {
   return (
-    <div className="userCard" key={props.id}>
-      <img className="userPic" src={props.image} />
+    <div className="userCard" key={user.id}>
+      <img className="userPic" src={user.image} alt="User" />
       <div className="userInfo">
-        <div>{`${props.firstName} ${props.lastName}`}</div>
-        <div>{props.address.city}</div>
+        <div>{`${user.firstName} ${user.lastName}`}</div>
+        {user.address && user.address[0] && user.address[0].city ? (
+          <div>{user.address[0].city}</div> 
+        ) : (
+          <div>Город не указан</div>
+        )}
       </div>
     </div>
   );
-}
+};

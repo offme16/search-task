@@ -5,15 +5,12 @@ import { getResult } from "../../store/selectors/getResult";
 
 export function SearchResults() {
   const users = useSelector(getResult);
-  console.log(users);
   
   return (
-     <div className="usersList">
-
-    {users ?  users.map((user) => (
-        <UserCard {...user} />
-      )) : <div></div>}
-
+    <div className="usersList">
+      {users?.length ?  users.map((user) => (
+        <UserCard key={user.id} user={user} />
+      )) : <div>Пользователь не найден</div>}
     </div>
   );
 }

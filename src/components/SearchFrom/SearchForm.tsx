@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import "./styles.css";
 import { searchActions } from "../../store/searchSlice";
 import { getPerson } from "../../store/asynkThunk/getPerson";
@@ -9,11 +9,25 @@ import { getSearchValue } from "../../store/selectors/getSearchValue";
 export function SearchForm() {
   const dispatch = useAppDispatch();
   const searchValue = useSelector(getSearchValue);
-  
-  const handleUsername = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(searchActions.setField(e.target.value));
-  }, [dispatch]);
 
+  const [typingTimeout, setTypingTimeout] = useState<number | null>(null);
+
+  const handleUsernameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(searchActions.setField(e.target.value.trim()));
+    // Если таймер уже запущен, сбрасываем его
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+    // Устанавливаем новый таймер для отправки запроса через 1 секунду
+    const timeout = setTimeout(() => {
+      if (e.target.value.trim()) {
+        dispatch(getPerson(e.target.value.trim()));
+      }
+    }, 1000);
+    setTypingTimeout(timeout);
+  }, [dispatch, typingTimeout]);
+
+  // Обработчик нажатия клавиши "Enter" в поле ввода
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
@@ -32,10 +46,10 @@ export function SearchForm() {
         <input
           type="text"
           placeholder="Найти"
-          onChange={(e) => handleUsername(e)}
+          onChange={handleUsernameChange}
           onKeyDown={handleKeyDown}
-          />
+        />
       </form>
-    </div> 
+    </div>
   );
 }

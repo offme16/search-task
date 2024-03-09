@@ -9,7 +9,7 @@ export const getPerson = createAsyncThunk<DataItem[], string>(
             const json = await response.json();
             return json.users;
         } catch (e) {
-            throw new Error('Ошибка при получении данных');
+            alert("Ошибка при получении данных");
         }
     },
 );
